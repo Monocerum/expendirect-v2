@@ -8,7 +8,7 @@ export default function Logo() {
         <b>expendirect</b>
         <small>expense tracker</small>
       </span>
-      <img className="fl" src="/assets/logo-flower.png" alt="" />
+      <img className="fl" src="/assets/logo-flower-lineart.png" alt="" />
     </Link>
   )
 }

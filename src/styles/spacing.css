@@ -1,7 +1,6 @@
 .hero {
     min-height: clamp(280px, 40vw, 400px);
-    padding-top: clamp(2rem, 5vw, 4rem);
-    padding-bottom: clamp(2.5rem, 6vw, 5rem);
+    padding: 10%;
     margin-bottom: clamp(1.5rem, 5vw, 4rem);
 }
 
@@ -20,6 +19,10 @@
 
 .card {
     padding: clamp(1.3rem, 3vw, 2.2rem);
+}
+
+.filters {
+    margin: 1rem 0;
 }
 
 .big-num {
@@ -50,4 +53,8 @@
 .burger,
 .scrim {
     display: none;
+}
+
+.table {
+    grid-template-columns: repeat(5, minmax(105px, 1fr));
 }
