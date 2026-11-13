@@ -54,7 +54,6 @@ export default function TransactionForm({
     const isExpense = form.type === 'expense'
     const updateField = (field) => (event) => setForm({ ...form, [field]: event.target.value })
 
-    // Bill payment: which bill, how much is still owed on it, and whether this overpays it.
     const bills = state.payments.filter(
         (payment) => amountOwed(payment) > 0 || (form.billId && payment.id === form.billId),
     )
