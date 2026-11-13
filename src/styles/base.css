@@ -150,6 +150,10 @@ h2 {
         radial-gradient(circle at 100% 40%, var(--glow), transparent 55%);
 }
 
+.hero-subtitle-design {
+    object-fit: contain;
+}
+
 .hero h1 {
     font-size: clamp(3rem, 9vw, 6.5rem);
     line-height: 1;
