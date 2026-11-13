@@ -255,8 +255,24 @@ h2 {
 }
 
 .home {
-    grid-template-columns: 3fr 2fr;
-    grid-template-areas: 'a b' 'c d' 'e e' 'btn btn';
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    grid-template-areas:
+        'a b'
+        'c d'
+        'e e'
+        'btn btn';
+    width: 100%;
+    min-width: 0;
+}
+
+.home > * {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.home .card {
+    min-width: 0;
+    width: 100%;
 }
 
 .a {

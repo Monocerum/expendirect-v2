@@ -201,8 +201,15 @@
         grid-column: 2;
     }
 
-    section .card .a{
-        width: 50% !important; 
+        .home {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            'a'
+            'b'
+            'c'
+            'd'
+            'e'
+            'btn';
     }
 
     .foot {
