@@ -1,0 +1,89 @@
+@keyframes rise {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes reveal {
+    from {
+        opacity: 0;
+        transform: translateX(-26px);
+        clip-path: inset(0 100% 0 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+        clip-path: inset(0 -5% 0 0);
+    }
+}
+
+.hero h1 {
+    animation: reveal 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.hero .script {
+    animation: rise 0.7s 0.25s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.hero .btn {
+    animation: rise 0.7s 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.content>*,
+.grid>* {
+    animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.content>.grid {
+    animation: none;
+}
+
+.content>*:nth-child(2),
+.grid>*:nth-child(2) {
+    animation-delay: 0.08s;
+}
+
+.content>*:nth-child(3),
+.grid>*:nth-child(3) {
+    animation-delay: 0.16s;
+}
+
+.content>*:nth-child(4),
+.grid>*:nth-child(4) {
+    animation-delay: 0.24s;
+}
+
+.content>*:nth-child(5),
+.grid>*:nth-child(5) {
+    animation-delay: 0.32s;
+}
+
+.content>*:nth-child(n + 6),
+.grid>*:nth-child(n + 6) {
+    animation-delay: 0.4s;
+}
+
+.btn,
+.link {
+    transition:
+        transform 0.15s,
+        box-shadow 0.2s,
+        background 0.2s,
+        color 0.2s;
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px color-mix(in srgb, var(--primary) 30%, transparent);
+}
+
+.btn:active {
+    transform: none;
+}

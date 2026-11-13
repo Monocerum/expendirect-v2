@@ -1,0 +1,113 @@
+@media (max-width: 800px) {
+    .top {
+        padding: 0.7rem 1rem;
+    }
+
+    .top nav,
+    .fl {
+        display: none;
+    }
+
+    .avatar {
+        margin-left: auto;
+    }
+
+    .logo b {
+        font-size: 1.5rem;
+    }
+
+    .hero {
+        background-size: min(95%, 420px), auto;
+        background-position:
+            right bottom,
+            center;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.6rem, 13vw, 4.2rem);
+    }
+
+    .script {
+        font-size: 1.8rem;
+    }
+
+    .btn.big {
+        font-size: 1.05rem;
+        padding: 0.65rem 1.5rem;
+    }
+
+    .shell {
+        padding-inline: 1rem;
+        flex-direction: column;
+    }
+
+    .content {
+        width: 100%;
+    }
+
+    .side {
+        position: fixed;
+        z-index: 30;
+        top: 0.6rem;
+        bottom: 0.6rem;
+        left: 0.6rem;
+        width: 240px;
+        transform: translateX(-120%);
+        overflow: auto;
+    }
+
+    .side.open {
+        transform: none;
+        box-shadow: 0 10px 40px #0004;
+    }
+
+    .side a span {
+        max-width: 150px;
+        opacity: 1;
+    }
+
+    .burger {
+        display: grid;
+        place-items: center;
+        position: fixed;
+        z-index: 20;
+        right: 1rem;
+        bottom: 1rem;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        border: 0;
+        background: var(--primary);
+        color: #fff;
+        box-shadow: 0 6px 18px color-mix(in srgb, var(--primary) 40%, transparent);
+    }
+
+    .bal {
+        font-size: 2.4rem;
+    }
+
+    .big-num {
+        font-size: 2.6rem;
+    }
+
+    .mid-num {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .between {
+        flex-wrap: wrap;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}

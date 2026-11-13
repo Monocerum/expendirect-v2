@@ -1,0 +1,6 @@
+.sub {
+    font: 400 1.4rem var(--display);
+    color: var(--secondary);
+    margin: 1.6rem 0 0.2rem;
+    text-transform: uppercase;
+}

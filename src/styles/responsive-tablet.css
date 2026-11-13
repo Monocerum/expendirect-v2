@@ -1,0 +1,13 @@
+@media (max-width: 1024px) {
+    .top {
+        gap: 1rem;
+    }
+
+    .top nav {
+        gap: 1.1rem;
+    }
+
+    .fl {
+        width: 56px;
+    }
+}
