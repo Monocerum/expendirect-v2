@@ -48,4 +48,43 @@
         font-size: 0.8rem;
         padding-bottom: 0.2rem;
     }
+
+    .entry {
+        grid-template-columns: 18px 1fr;
+        gap: 0.3rem 1rem;
+        align-items: start;
+    }
+
+    .entry > i {
+        grid-column: 1;
+        grid-row: 1 / 3;
+    }
+
+    .entry .ename {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .entry .eamt {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    .entry .emeta {
+        grid-column: 2;
+        grid-row: 3;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+    }
+
+    .entry .entry-actions {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .content {
+        z-index: 0 !important;
+    }
 }

@@ -1,6 +1,6 @@
 @media (max-width: 800px) {
     .top {
-        padding: 0.7rem 1rem;
+        padding: 1.15rem;
     }
 
     .top nav,
@@ -24,11 +24,19 @@
     }
 
     .hero h1 {
-        font-size: clamp(2.6rem, 13vw, 4.2rem);
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle-design {
+        width: 250px;
+    }
+
+    .subtitle-container {
+        margin-top: -5px;
     }
 
     .script {
-        font-size: 1.8rem;
+        font-size: 2rem;
     }
 
     .btn.big {
@@ -167,6 +175,14 @@
         max-height: 92vh;
     }
 
+    .subtitle-container {
+        margin-top: -15px;
+    }
+
+    .hero-subtitle-design {
+        display: none;
+    }
+
     .actions {
         flex-direction: row;
         flex-wrap: wrap;
@@ -183,6 +199,14 @@
     .entry>span,
     .entry .link {
         grid-column: 2;
+    }
+
+    section .card .a{
+        width: 50% !important; 
+    }
+
+    .foot {
+        height: 10em;
     }
 }
 
