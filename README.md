@@ -1,70 +1,153 @@
-# Getting Started with Create React App
+# Cashflow Tracker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A responsive personal finance tracking application built with **React** and **JavaScript**. It allows users to manage financial accounts, monitor income and expenses, organize transactions, create budget plans, and track payment activities through an interactive dashboard.
+
+Deployed at Vercel: https://expendirect.vercel.app/
+
+## Features
+
+- **Dashboard** – View an overview of financial activities, account balances, savings, bills, and top expenses.
+- **Account Management** – Create, edit, and manage multiple financial accounts.
+- **Cashflow Tracking** – Monitor income and expenses across different accounts and time periods.
+- **Transaction Management** – Add, edit, delete, and organize financial transactions.
+- **Category Management** – Create custom categories, assign colors, and filter transactions.
+- **Budget Planning** – Create and manage budget plans to monitor spending and savings goals.
+- **Payment Tracking** – Record payments, monitor outstanding balances, and view payment statuses.
+- **Data Visualization** – View spending breakdowns and financial summaries through charts.
+- **Theme Customization** – Personalize the application using available themes and custom color settings.
+- **Settings and Data Management** – Manage application preferences and reset stored data.
+- **Responsive Design** – Adapted layouts for desktop, tablet, and mobile screens.
+
+## Technologies Used
+
+- **React** – Component-based frontend development.
+- **JavaScript** – Application logic and interactivity.
+- **HTML5** – Application structure.
+- **CSS3** – Styling, responsive layouts, and theme customization.
+- **Vite** – Development server and build tooling.
+- **npm** – Package management.
+
+## Getting Started
+
+Follow these instructions to run the application locally.
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/)
+- npm (included with Node.js)
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone <repository-url>
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd <project-folder>
+   ```
+
+3. Install the project dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Open the local URL displayed in your terminal. By default, Vite typically uses:
+
+   ```text
+   http://localhost:5173
+   ```
 
 ## Available Scripts
 
-In the project directory, you can run:
+| Command | Description |
+|---|---|
+| `npm install` | Installs the required project dependencies. |
+| `npm run dev` | Starts the Vite development server. |
+| `npm run build` | Builds the application for production. |
+| `npm run preview` | Previews the production build locally. |
 
-### `npm start`
+## Project Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```text
+├── public/
+│   ├── assets/                 # Images, icons, and visual assets
+│   ├── fonts/                  # Custom typography
+│   ├── favicon.ico
+│   ├── manifest.json
+│   └── site.webmanifest
+│
+├── src/
+│   ├── components/
+│   │   ├── accounts/           # Account cards, forms, and summaries
+│   │   ├── budget/             # Budget plan components
+│   │   ├── categories/         # Category management components
+│   │   ├── charts/             # Financial charts and visualizations
+│   │   ├── common/             # Reusable UI components
+│   │   ├── home/               # Dashboard cards
+│   │   ├── layout/             # Header, navigation, and app layout
+│   │   ├── payments/           # Payment and billing components
+│   │   ├── settings/           # Settings and theme components
+│   │   ├── tracker/            # Cashflow tracking components
+│   │   └── transactions/       # Transaction forms and entries
+│   │
+│   ├── constants/              # Application constants and configurations
+│   ├── context/                # React context and store provider
+│   ├── hooks/                  # Custom React hooks
+│   ├── pages/                  # Application pages
+│   ├── store/                  # State management, reducers, and persistence
+│   ├── styles/                 # Global, component, and responsive stylesheets
+│   ├── theme/                  # Theme definitions and application logic
+│   ├── utils/                  # Reusable helper functions
+│   │
+│   ├── App.css                 # Main application styles
+│   ├── App.jsx                 # Root application component
+│   ├── App.test.jsx            # Application tests
+│   ├── main.jsx                # Application entry point
+│   ├── reportWebVitals.js      # Performance reporting
+│   └── setupTests.js           # Test configuration
+│
+├── index.html
+├── package.json
+├── package-lock.json
+├── vite.config.js
+├── eslint.config.js
+├── jsconfig.json
+└── README.md
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Application Architecture
 
-### `npm test`
+The application follows a modular, component-based structure:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Components:** Reusable interface elements organized by application feature.
+- **Pages:** Individual views for the dashboard, accounts, budget plans, categories, payments, and other sections.
+- **Context and Store:** Centralized application state using React Context, reducers, and state-related actions.
+- **Hooks:** Custom hooks for accessing application state and managing themes.
+- **Utilities:** Shared functions for financial calculations, date handling, formatting, and transaction operations.
+- **Themes:** Theme configurations and customization logic.
+- **Styles:** Separate stylesheets for application components, layouts, themes, and responsive behavior.
 
-### `npm run build`
+## Development
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The application uses Vite for its development environment, providing Hot Module Replacement (HMR) for a faster development workflow.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Changes to the source files are automatically reflected in the browser while the development server is running.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Project Type:** Personal Project  
+**Frontend:** React, JavaScript, CSS3  
+**Build Tool:** Vite
