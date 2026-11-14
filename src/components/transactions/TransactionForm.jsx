@@ -1,9 +1,9 @@
 import { useState } from 'react'
+import PlanItemPicker from '@/components/budget/PlanItemPicker'
 import FormRow from '@/components/common/FormRow'
 import Modal from '@/components/common/Modal'
 import TypeToggle from '@/components/common/TypeToggle'
 import { BILL_CATEGORY } from '@/constants/categories'
-import { BUDGET_BUCKETS } from '@/constants/transactions'
 import { useStore } from '@/hooks/useStore'
 import { addTransaction, updateTransaction } from '@/store/actions'
 import { todayIso } from '@/utils/date'
@@ -22,7 +22,7 @@ function createInitialForm({ transaction, type, accountId, categoryId, date, acc
             description: transaction.description ?? '',
             notes: transaction.notes ?? '',
             categoryId: transaction.categoryId ?? '',
-            plan: transaction.plan || 'needs',
+            plan: transaction.plan || '',
         }
     }
     return {
@@ -31,7 +31,7 @@ function createInitialForm({ transaction, type, accountId, categoryId, date, acc
         amount: '',
         accountId: accountId || accounts[0]?.id || '',
         date: date || todayIso(),
-        plan: 'needs',
+        plan: '',
         categoryId: categoryId || '',
         tags: [],
         description: '',
@@ -71,11 +71,20 @@ export default function TransactionForm({
         Boolean(form.accountId) &&
         Boolean(form.date) &&
         Boolean(form.description.trim()) &&
+        (!isExpense || Boolean(form.plan)) &&
         (!asksAboutExcess || typeof form.useExcess === 'boolean')
 
     const changeType = (nextType) => {
         if (nextType === form.type) return
-        setForm({ ...form, type: nextType, categoryId: '', tags: [], billId: '', useExcess: null })
+        setForm({
+            ...form,
+            type: nextType,
+            categoryId: '',
+            tags: [],
+            billId: '',
+            plan: '',
+            useExcess: null,
+        })
     }
 
     const changeBill = (event) => {
@@ -153,22 +162,11 @@ export default function TransactionForm({
                 </FormRow>
 
                 {isExpense && (
-                    <div className="row">
-                        <span>Budget plan</span>
-                        <div className="chips">
-                            {BUDGET_BUCKETS.map((bucket) => (
-                                <button
-                                    type="button"
-                                    key={bucket}
-                                    className={`chip ${bucket}${form.plan === bucket ? ' on' : ''}`}
-                                    onClick={() => setForm({ ...form, plan: bucket })}
-                                >
-                                    <i />
-                                    {bucket}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
+                    <PlanItemPicker
+                        accountId={form.accountId}
+                        value={form.plan}
+                        onChange={(plan) => setForm((current) => ({ ...current, plan }))}
+                    />
                 )}
 
                 {isExpense && (

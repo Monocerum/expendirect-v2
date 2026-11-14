@@ -1,13 +1,9 @@
 import AccountIcon from '@/components/common/AccountIcon'
-import { PLAN_COLORS, getPlanItems, spentForPlanItem } from '@/utils/budgetPlan'
-import { sumAmounts } from '@/utils/finance'
-import { formatMoney } from '@/utils/format'
+import { buildPlanRows, hasUnlinkedItem } from '@/utils/budgetPlan'
+import PlanItemRows from './PlanItemRows'
 
 export default function BudgetPlanCard({ plan, account, transactions, onEdit, onDelete }) {
-    const income = sumAmounts(transactions.filter((item) => item.type === 'income'))
-    const expenses = transactions.filter((item) => item.type === 'expense')
-    const items = getPlanItems(plan)
-    const hasUnlinkedItem = items.some((item) => !item.key && !item.categoryIds?.length)
+    const rows = buildPlanRows(plan, transactions)
 
     return (
         <section className="card">
@@ -24,33 +20,10 @@ export default function BudgetPlanCard({ plan, account, transactions, onEdit, on
                     </button>
                 </div>
             </div>
-            {items.map((item, index) => {
-                const budget = (income * item.percent) / 100
-                const spent = spentForPlanItem(item, expenses, income)
-                const width = budget ? Math.min((spent / budget) * 100, 100) : 0
-                const isOver = item.key !== 'savings' && budget > 0 && spent > budget
-                return (
-                    <div className="plan" key={item.id}>
-                        <span>
-                            {item.name} · {item.percent}%
-                        </span>
-                        <div className="bar">
-                            <div
-                                style={{
-                                    width: `${width}%`,
-                                    background: isOver ? '#d32f2f' : PLAN_COLORS[index % PLAN_COLORS.length],
-                                }}
-                            />
-                        </div>
-                        <small>
-                            PHP {formatMoney(spent)} of {formatMoney(budget)}
-                        </small>
-                    </div>
-                )
-            })}
-            {hasUnlinkedItem && (
+            <PlanItemRows rows={rows} />
+            {hasUnlinkedItem(plan) && (
                 <p className="muted">
-                    Edit the plan to link categories to your custom items so their spending is tracked.
+                    Custom items count the expenses you assign to them. Edit the plan to also link categories.
                 </p>
             )}
         </section>

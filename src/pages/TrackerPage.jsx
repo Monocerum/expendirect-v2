@@ -11,6 +11,7 @@ import CategoryGroupCard from '@/components/tracker/CategoryGroupCard'
 import CategoryLegend from '@/components/tracker/CategoryLegend'
 import DatePickLink from '@/components/tracker/DatePickLink'
 import PeriodTabs from '@/components/tracker/PeriodTabs'
+import { ALL_ACCOUNTS } from '@/constants/accounts'
 import { useStore } from '@/hooks/useStore'
 import { isInPeriod, periodLabel, todayIso } from '@/utils/date'
 import { accountBalance, sumAmounts } from '@/utils/finance'
@@ -31,12 +32,16 @@ export default function TrackerPage() {
     const [isFormOpen, setIsFormOpen] = useState(false)
     const [viewedGroupId, setViewedGroupId] = useState(null)
 
-    const transactions = state.transactions.filter(
+    const isAll = accountId === ALL_ACCOUNTS.id
+
+    const periodTransactions = state.transactions.filter(
         (item) =>
-            item.accountId === accountId &&
-            item.type === type &&
+            (isAll || item.accountId === accountId) &&
             isInPeriod(item, { period, reference, to: rangeEnd }),
     )
+    const transactions = periodTransactions.filter((item) => item.type === type)
+    const periodIncome = sumAmounts(periodTransactions.filter((item) => item.type === 'income'))
+    const periodExpenses = sumAmounts(periodTransactions.filter((item) => item.type === 'expense'))
     const groups = groupByCategory(transactions, state.categories)
     const searchedGroups = groupByCategory(
         transactions.filter((item) => matchesSearch(item, search, state.categories)),
@@ -55,12 +60,21 @@ export default function TrackerPage() {
             <div className="between">
                 <div>
                     <small className="lbl">Account</small>
-                    <AccountSelect value={accountId} onChange={setAccountId} />
+                    <AccountSelect value={accountId} onChange={setAccountId} includeAll />
                 </div>
                 <p className="bal">
                     <small>Balance</small> <sup>PHP</sup> {formatMoney(accountBalance(state, accountId))}
                 </p>
             </div>
+
+            {isAll && (
+                <p className="muted">
+                    All accounts · {periodTransactions.length}{' '}
+                    {periodTransactions.length === 1 ? 'entry' : 'entries'} this period · Income PHP{' '}
+                    {formatMoney(periodIncome)} · Expenses PHP {formatMoney(periodExpenses)} · Net PHP{' '}
+                    {formatMoney(periodIncome - periodExpenses)}
+                </p>
+            )}
 
             <TypeToggle value={type} onChange={setType} />
 
@@ -143,7 +157,7 @@ export default function TrackerPage() {
             {isFormOpen && (
                 <TransactionForm
                     type={type}
-                    accountId={accountId}
+                    accountId={isAll ? '' : accountId}
                     date={period === 'overall' ? todayIso() : reference}
                     onClose={() => setIsFormOpen(false)}
                 />

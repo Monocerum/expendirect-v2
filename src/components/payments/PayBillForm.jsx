@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PlanItemPicker from '@/components/budget/PlanItemPicker'
 import FormRow from '@/components/common/FormRow'
 import Modal from '@/components/common/Modal'
 import ExcessNotice from '@/components/transactions/ExcessNotice'
@@ -13,11 +14,12 @@ export default function PayBillForm({ bill, onClose }) {
     const balance = amountOwed(bill)
     const [amount, setAmount] = useState(balance)
     const [useExcess, setUseExcess] = useState(null)
+    const [plan, setPlan] = useState('')
 
     const payment = Number(amount) || 0
     const excess = Math.max(payment - balance, 0)
     const asksAboutExcess = excess > 0 && Boolean(bill.recurring)
-    const canPay = payment > 0 && (!asksAboutExcess || typeof useExcess === 'boolean')
+    const canPay = payment > 0 && Boolean(plan) && (!asksAboutExcess || typeof useExcess === 'boolean')
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -28,7 +30,7 @@ export default function PayBillForm({ bill, onClose }) {
                 amount: payment,
                 accountId: bill.accountId,
                 date: todayIso(),
-                plan: 'needs',
+                plan,
                 categoryId: '',
                 tags: ['bill'],
                 billId: bill.id,
@@ -65,6 +67,7 @@ export default function PayBillForm({ bill, onClose }) {
                         onChange={(event) => setAmount(event.target.value)}
                     />
                 </FormRow>
+                <PlanItemPicker accountId={bill.accountId} value={plan} onChange={setPlan} />
                 <button type="button" className="link" onClick={() => setAmount(balance)}>
                     Pay full balance
                 </button>

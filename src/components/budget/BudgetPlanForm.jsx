@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import FormRow from '@/components/common/FormRow'
 import Modal from '@/components/common/Modal'
+import { ALL_ACCOUNTS } from '@/constants/accounts'
 import { useStore } from '@/hooks/useStore'
 import { addItem, updateItem } from '@/store/actions'
 import { createBlankPlanItem, createStandardPlanItems, getPlanItems } from '@/utils/budgetPlan'
@@ -9,7 +10,7 @@ const isEvenSplit = (total) => Math.abs(total - 100) < 0.001
 
 export default function BudgetPlanForm({ plan, onClose }) {
     const { state, dispatch } = useStore()
-    const availableAccounts = state.accounts.filter(
+    const availableAccounts = [...state.accounts, ALL_ACCOUNTS].filter(
         (account) => plan || !state.plans.some((item) => item.accountId === account.id),
     )
     const expenseCategories = state.categories.filter((category) => category.type === 'expense')
@@ -67,7 +68,7 @@ export default function BudgetPlanForm({ plan, onClose }) {
                     >
                         {availableAccounts.map((account) => (
                             <option key={account.id} value={account.id}>
-                                {account.name}
+                                {account.id === ALL_ACCOUNTS.id ? 'All accounts (overall)' : account.name}
                             </option>
                         ))}
                     </select>
@@ -118,7 +119,7 @@ export default function BudgetPlanForm({ plan, onClose }) {
                             </small>
                         ) : (
                             <div className="linkcats">
-                                <small>Counts spending from:</small>
+                                <small>Counts expenses assigned to it, and spending from:</small>
                                 {expenseCategories.map((category) => {
                                     const isLinked = item.categoryIds.includes(category.id)
                                     return (

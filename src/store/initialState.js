@@ -26,7 +26,7 @@ export function createInitialState() {
         plans: [],
         payments: [],
         profile: { name: '', email: '', avatar: '' },
-        settings: { goal: 5000, theme: DEFAULT_THEME_ID },
+        settings: { goal: 5000, goalSource: 'fixed', theme: DEFAULT_THEME_ID },
         schema: SCHEMA_VERSION,
     }
 }

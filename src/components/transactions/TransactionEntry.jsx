@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { useStore } from '@/hooks/useStore'
 import { removeItem } from '@/store/actions'
+import { planItemLabel } from '@/utils/budgetPlan'
 import { formatMoney } from '@/utils/format'
 import TransactionForm from './TransactionForm'
 import DeleteModal from '@/components/common/DeleteModal'
@@ -50,7 +51,7 @@ export default function TransactionEntry({ transaction, color, name }) {
                     )}
 
                     {transaction.plan && (
-                        <span className="plan-badge">{transaction.plan}</span>
+                        <span className="plan-badge">{planItemLabel(state.plans, transaction.plan)}</span>
                     )}
 
                     {bill && (

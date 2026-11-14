@@ -1,3 +1,5 @@
+import { ALL_ACCOUNTS } from '@/constants/accounts'
+import { filterByMonthYear } from './date'
 import { createId } from './id'
 import { sumAmounts } from './finance'
 
@@ -28,8 +30,95 @@ export const getPlanItems = (plan) =>
         { id: 'savings', key: 'savings', name: 'Savings', percent: plan.savings },
     ]
 
+const isStandardKey = (key) => key === 'needs' || key === 'wants' || key === 'savings'
+
+export const planItemValue = (item) => item.key || item.id
+
 export function spentForPlanItem(item, expenses, income) {
     if (item.key === 'savings') return Math.max(income - sumAmounts(expenses), 0)
     if (item.key) return sumAmounts(expenses.filter((expense) => expense.plan === item.key))
-    return sumAmounts(expenses.filter((expense) => item.categoryIds?.includes(expense.categoryId)))
+
+    return sumAmounts(
+        expenses.filter(
+            (expense) => expense.plan === item.id || item.categoryIds?.includes(expense.categoryId),
+        ),
+    )
+}
+
+export const findPlanFor = (plans, accountId) =>
+    plans.find((plan) => plan.accountId === accountId) ??
+    plans.find((plan) => plan.accountId === ALL_ACCOUNTS.id)
+
+
+export function planItemOptions(plans, accountId) {
+    const plan = findPlanFor(plans, accountId)
+    if (!plan) {
+        return ['needs', 'wants'].map((key) => ({ value: key, label: key, key }))
+    }
+    return getPlanItems(plan)
+        .filter((item) => item.key !== 'savings')
+        .map((item) => ({ value: planItemValue(item), label: item.name, key: item.key }))
+}
+
+export function planItemLabel(plans, value) {
+    if (!value || isStandardKey(value)) return value
+    for (const plan of plans) {
+        const item = getPlanItems(plan).find((other) => other.id === value)
+        if (item) return item.name
+    }
+    return value
+}
+
+export function buildPlanRows(plan, transactions) {
+    const income = sumAmounts(transactions.filter((item) => item.type === 'income'))
+    const expenses = transactions.filter((item) => item.type === 'expense')
+    return getPlanItems(plan).map((item, index) => {
+        const budget = (income * item.percent) / 100
+        const spent = spentForPlanItem(item, expenses, income)
+        const isOver = item.key !== 'savings' && budget > 0 && spent > budget
+        return {
+            id: item.id,
+            name: item.name,
+            percent: item.percent,
+            budget,
+            spent,
+            width: budget ? Math.min((spent / budget) * 100, 100) : 0,
+            color: isOver ? '#d32f2f' : PLAN_COLORS[index % PLAN_COLORS.length],
+        }
+    })
+}
+
+export const hasUnlinkedItem = (plan) =>
+    getPlanItems(plan).some((item) => !item.key && !item.categoryIds?.length)
+
+export const savingsPercent = (plan) =>
+    getPlanItems(plan)
+        .filter((item) => item.key === 'savings')
+        .reduce((total, item) => total + (Number(item.percent) || 0), 0)
+
+export const transactionsForPlan = (plan, transactions) =>
+    plan.accountId === ALL_ACCOUNTS.id
+        ? transactions
+        : transactions.filter((item) => item.accountId === plan.accountId)
+
+
+export function planSavingsSummary(plans, accounts, transactions, filter) {
+    const withSavings = plans.filter(
+        (plan) =>
+            savingsPercent(plan) > 0 &&
+            (plan.accountId === ALL_ACCOUNTS.id || accounts.some((a) => a.id === plan.accountId)),
+    )
+    const overall = withSavings.find((plan) => plan.accountId === ALL_ACCOUNTS.id)
+    const used = overall ? [overall] : withSavings
+    if (!used.length) return null
+    let goal = 0
+    let saved = 0
+    for (const plan of used) {
+        const items = filterByMonthYear(transactionsForPlan(plan, transactions), filter)
+        const income = sumAmounts(items.filter((item) => item.type === 'income'))
+        const expenses = sumAmounts(items.filter((item) => item.type === 'expense'))
+        goal += (income * savingsPercent(plan)) / 100
+        saved += income - expenses
+    }
+    return { goal, saved, accounts: used.length }
 }

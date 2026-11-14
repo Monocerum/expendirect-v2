@@ -1,8 +1,12 @@
+import { ALL_ACCOUNTS } from '@/constants/accounts'
 import { todayIso } from './date'
 
 export const sumAmounts = (items) => items.reduce((total, item) => total + Number(item.amount), 0)
 
 export function accountBalance(state, accountId) {
+    if (accountId === ALL_ACCOUNTS.id) {
+        return state.accounts.reduce((total, account) => total + accountBalance(state, account.id), 0)
+    }
     const account = state.accounts.find((item) => item.id === accountId)
     if (!account) return 0
     const net = state.transactions

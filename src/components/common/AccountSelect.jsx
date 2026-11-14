@@ -1,11 +1,12 @@
 import { useState } from 'react'
+import { ALL_ACCOUNTS } from '@/constants/accounts'
 import { useStore } from '@/hooks/useStore'
 import AccountIcon from './AccountIcon'
 
-export default function AccountSelect({ value, onChange }) {
+export default function AccountSelect({ value, onChange, includeAll = false }) {
     const { state } = useStore()
     const [isOpen, setIsOpen] = useState(false)
-    const selected = state.accounts.find((account) => account.id === value)
+    const selected = value === ALL_ACCOUNTS.id ? ALL_ACCOUNTS : state.accounts.find((account) => account.id === value)
 
     const choose = (accountId) => {
         onChange(accountId)
@@ -25,6 +26,14 @@ export default function AccountSelect({ value, onChange }) {
             </button>
             {isOpen && (
                 <ul role="listbox">
+                    {includeAll && (
+                        <li>
+                            <button type="button" onClick={() => choose(ALL_ACCOUNTS.id)}>
+                                <AccountIcon account={ALL_ACCOUNTS} />
+                                {ALL_ACCOUNTS.name}
+                            </button>
+                        </li>
+                    )}
                     {state.accounts.map((account) => (
                         <li key={account.id}>
                             <button type="button" onClick={() => choose(account.id)}>
